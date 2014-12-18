@@ -1,0 +1,52 @@
+require 'pp'
+load '../data/crm.rb'
+
+def people_without_employments(input)
+
+  result = []
+
+  input[:people].each do |person|
+    if person[:employments] == []
+        result << {
+          :id => person[:id],
+          :first_name => person[:first_name],
+          :last_name => person[:last_name],
+        }
+    end
+  end
+  result
+end
+
+require 'rspec/autorun'
+
+RSpec.describe '#people_without_employments' do
+  it 'returns an array of employments, including the person name,
+  company name, person id, company id and title.' do
+    input = {
+      :people => [
+        {
+          :id => 32,
+          :first_name => "Elyse",
+          :last_name => "Jensen",
+          :employments => []
+        }
+      ],
+      :companies => [
+        {
+          :id => 0,
+          :name => "Nicolas and Sons"
+        }
+      ]
+    }
+
+    expected =
+      [
+        {
+          :id => 32,
+          :first_name => "Elyse",
+          :last_name => "Jensen"
+        }
+      ]
+    expect(people_without_employments(input)).to eq(expected)
+  end
+end
